@@ -4,106 +4,281 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kyanta — Quản trị nội dung</title>
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Sans+JP:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #100f16;
+    --bg-soft: #18161f;
     --panel: #1d1a26;
     --panel-2: #241f30;
     --line: #322d40;
+    --line-soft: #262233;
     --ink: #f3efe8;
     --ink-dim: #a39cb0;
+    --ink-faint: #726c82;
     --gold: #cc9a4d;
     --gold-soft: #e8c07f;
     --rose: #d4899a;
     --danger: #e0687a;
     --ok: #7ec98f;
+    --radius: 14px;
   }
   *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:'Segoe UI', Arial, sans-serif; line-height:1.5;
-    padding-bottom:100px;
+    margin:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 10% -10%, rgba(204,154,77,0.10), transparent 55%),
+      radial-gradient(ellipse 700px 500px at 95% 5%, rgba(212,137,154,0.08), transparent 50%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Noto Sans JP', 'Segoe UI', Arial, sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    min-height:100vh;
+    padding-bottom:110px;
+    -webkit-font-smoothing:antialiased;
   }
   a{color:var(--gold-soft);}
-  .wrap{max-width:920px; margin:0 auto; padding:24px 20px;}
-  h1{font-size:22px; margin:0 0 4px;}
-  h2{font-size:16px; color:var(--gold-soft); margin:0 0 12px; border-bottom:1px solid var(--line); padding-bottom:8px;}
-  .sub{color:var(--ink-dim); font-size:13px; margin-bottom:20px;}
-  .panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:18px;}
-  label{display:block; font-size:12.5px; color:var(--ink-dim); margin:10px 0 4px;}
+  ::selection{background:var(--gold); color:#1a1220;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+
+  /* ---------- Top bar ---------- */
+  .top-bar{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:18px 28px;
+    border-bottom:1px solid var(--line-soft);
+    background:rgba(16,15,22,0.82);
+    backdrop-filter:blur(10px);
+  }
+  .top-bar .brand-eyebrow{
+    font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint);
+    margin-bottom:2px;
+  }
+  .top-bar h1{
+    font-family:'Shippori Mincho', serif; font-weight:700;
+    font-size:19px; margin:0; color:var(--ink);
+  }
+  .top-bar h1 b{color:var(--gold-soft); font-weight:700;}
+  #repo-badge{
+    font-size:11px; color:var(--ink-faint); margin-top:2px;
+  }
+  #repo-badge b{color:var(--gold-soft); font-weight:500;}
+  .topbar-actions{display:flex; gap:8px;}
+  .topbar-actions button{font-size:12px; padding:7px 12px;}
+
+  /* ---------- Shell / layout ---------- */
+  .shell{
+    max-width:1180px; margin:0 auto; padding:28px 28px 0;
+    display:grid; grid-template-columns:212px 1fr; gap:32px; align-items:start;
+  }
+  @media(max-width:960px){
+    .shell{grid-template-columns:1fr; padding:20px 16px 0;}
+    .toc{display:none;}
+  }
+
+  /* ---------- Sidebar TOC ---------- */
+  .toc{position:sticky; top:86px;}
+  .toc .toc-label{
+    font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint);
+    margin-bottom:10px;
+  }
+  .toc ol{list-style:none; margin:0 0 16px; padding:0; border-left:1px solid var(--line-soft);}
+  .toc li{margin:0;}
+  .toc a{
+    display:block; padding:7px 0 7px 16px; margin-left:-1px;
+    border-left:1px solid transparent;
+    font-size:13px; color:var(--ink-dim); text-decoration:none;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .toc a:hover{color:var(--ink);}
+  .toc a.active{color:var(--gold-soft); border-left-color:var(--gold);}
+  .toc-tools{display:flex; flex-direction:column; gap:6px;}
+  .toc-tools button{width:100%; font-size:12px; padding:7px 10px;}
+
+  h1, .wrap h1{font-size:22px; margin:0 0 4px;}
+  .sub{color:var(--ink-dim); font-size:13px; margin-bottom:22px; max-width:60ch;}
+
+  /* ---------- Cards / panels ---------- */
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:20px; margin-bottom:16px;
+  }
+  details.panel{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    margin-bottom:14px; overflow:hidden; scroll-margin-top:86px;
+  }
+  details.panel > summary{
+    list-style:none; cursor:pointer; padding:16px 20px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    font-family:'Shippori Mincho', serif; font-weight:700; font-size:15.5px; color:var(--gold-soft);
+    -webkit-tap-highlight-color:transparent;
+  }
+  details.panel > summary::-webkit-details-marker{display:none;}
+  details.panel > summary:hover{background:rgba(255,255,255,0.02);}
+  details.panel > summary .chev{
+    font-family:'JetBrains Mono', monospace; color:var(--ink-faint); font-size:13px;
+    transition:transform .2s ease; transform:rotate(0deg); flex-shrink:0;
+  }
+  details.panel[open] > summary .chev{transform:rotate(90deg);}
+  .panel-body{padding:4px 20px 20px; border-top:1px solid var(--line-soft);}
+
+  label{display:block; font-size:12.5px; color:var(--ink-dim); margin:12px 0 5px;}
   input[type=text], input[type=url], input[type=password], textarea{
-    width:100%; background:var(--panel-2); border:1px solid var(--line); border-radius:8px;
-    color:var(--ink); padding:9px 10px; font-size:14px; font-family:inherit;
+    width:100%; background:var(--panel-2); border:1px solid var(--line); border-radius:9px;
+    color:var(--ink); padding:10px 12px; font-size:14px; font-family:inherit;
+    transition:border-color .15s ease;
+  }
+  input[type=text]:focus, input[type=url]:focus, input[type=password]:focus, textarea:focus{
+    outline:none; border-color:var(--gold);
   }
   textarea{resize:vertical; min-height:70px;}
   .row{display:flex; gap:10px; flex-wrap:wrap;}
   .row > *{flex:1; min-width:160px;}
+
   button{
     background:var(--gold); color:#1a1220; border:none; border-radius:8px;
     padding:9px 16px; font-weight:600; cursor:pointer; font-size:13.5px;
+    font-family:inherit; transition:background .15s ease, opacity .15s ease;
   }
+  button:hover{background:var(--gold-soft);}
   button.secondary{background:var(--panel-2); color:var(--ink); border:1px solid var(--line);}
-  button.danger{background:var(--danger); color:#1a1220;}
+  button.secondary:hover{background:var(--line-soft); color:var(--ink);}
+  button.danger{background:transparent; color:var(--danger); border:1px solid rgba(224,104,122,.4); padding:6px 11px; font-size:12.5px;}
+  button.danger:hover{background:rgba(224,104,122,.12);}
   button:disabled{opacity:.5; cursor:not-allowed;}
-  .item-card{background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:12px; position:relative;}
-  .item-card .item-top{display:flex; justify-content:space-between; align-items:center;}
-  .thumb{width:100%; max-width:220px; border-radius:8px; display:block; margin:8px 0; border:1px solid var(--line);}
-  .tag-list{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;}
-  .tag-pill{background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:4px 10px; font-size:12.5px; display:flex; align-items:center; gap:6px;}
-  .tag-pill button{padding:0 4px; background:none; color:var(--danger); font-size:14px; font-weight:700;}
+
+  /* File inputs styled to match buttons */
+  input[type=file]{
+    display:block; width:100%; color:var(--ink-dim); font-size:12.5px; font-family:inherit;
+  }
+  input[type=file]::file-selector-button{
+    background:var(--gold); color:#1a1220; border:none; border-radius:8px;
+    padding:8px 14px; font-weight:600; cursor:pointer; font-size:13px; font-family:inherit;
+    margin-right:10px; transition:background .15s ease;
+  }
+  input[type=file]::file-selector-button:hover{background:var(--gold-soft);}
+
+  .item-card{
+    background:var(--panel-2); border:1px solid var(--line); border-radius:11px; padding:14px 14px 16px;
+    margin-bottom:12px; position:relative; counter-increment:item;
+  }
+  .item-card .item-top{display:flex; justify-content:space-between; align-items:center; gap:10px;}
+  .item-card .item-top b{
+    font-size:13.5px; color:var(--ink); font-weight:500;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .item-card .item-top b::before{
+    content:counter(item, decimal-leading-zero); font-family:'JetBrains Mono', monospace;
+    color:var(--gold); margin-right:9px; font-size:12px;
+  }
+  .thumb{width:100%; max-width:220px; border-radius:9px; display:block; margin:8px 0; border:1px solid var(--line);}
+  .tag-list{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; align-items:center;}
+  .tag-pill{background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:4px 6px 4px 12px; font-size:12.5px; display:flex; align-items:center; gap:4px;}
+  .tag-pill button{padding:0 6px; background:none; color:var(--danger); font-size:15px; font-weight:700; border-radius:50%;}
+  .tag-pill button:hover{background:rgba(224,104,122,.15);}
+  .tag-list input{max-width:160px; width:auto; flex:0 0 auto;}
+
   .toolbar{
-    position:fixed; left:0; right:0; bottom:0; background:#151220ee; backdrop-filter:blur(8px);
-    border-top:1px solid var(--line); padding:12px 20px; display:flex; gap:12px; align-items:center; z-index:50;
+    position:fixed; left:0; right:0; bottom:0; z-index:50;
+    background:#151220ee; backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    padding:14px 24px; display:flex; gap:14px; align-items:center;
+    box-shadow:0 -12px 30px -10px rgba(0,0,0,.5);
   }
   .toolbar .status{flex:1; font-size:12.5px; color:var(--ink-dim); white-space:pre-line;}
+  #btn-save{padding:10px 20px;}
   .hidden{display:none !important;}
   .add-btn{margin-top:6px;}
-  small.hint{display:block; color:var(--ink-dim); font-size:11.5px; margin-top:4px;}
+  small.hint{display:block; color:var(--ink-faint); font-size:11.5px; margin-top:8px; line-height:1.6;}
   .logbox{
-    background:#0c0b11; border:1px solid var(--line); border-radius:8px; padding:10px 12px;
-    font-family:'Consolas', monospace; font-size:12px; max-height:160px; overflow:auto; white-space:pre-wrap;
+    background:#0c0b11; border:1px solid var(--line); border-radius:9px; padding:10px 12px; margin-top:12px;
+    font-family:'JetBrains Mono', monospace; font-size:12px; max-height:160px; overflow:auto; white-space:pre-wrap;
+    color:var(--ink-dim);
   }
   .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
   @media(max-width:640px){ .grid2{grid-template-columns:1fr;} }
+
+  /* Onboarding / connect card */
+  .connect-hero{
+    display:flex; align-items:flex-start; gap:14px; margin-bottom:14px;
+  }
+  .connect-hero .mark{
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.16em; color:var(--gold-soft);
+    text-transform:uppercase; margin-bottom:4px;
+  }
+  .connect-hero h2{
+    font-family:'Shippori Mincho', serif; font-size:17px; margin:0; color:var(--ink); font-weight:700;
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Trang quản trị — Kyanta Portfolio</h1>
-  <p class="sub">Sửa nội dung, ảnh, nhạc nền... rồi bấm "Lưu &amp; xuất bản" để đẩy thẳng lên GitHub. Trang web (index.html) vẫn là web tĩnh 100%.</p>
 
-  <div class="panel" id="connect-panel">
-    <h2>1. Kết nối tới GitHub</h2>
-    <div class="row">
-      <div>
-        <label>Chủ repo (owner)</label>
-        <input type="text" id="cfg-owner" value="kyantaa">
-      </div>
-      <div>
-        <label>Tên repo</label>
-        <input type="text" id="cfg-repo" value="kagucord">
-      </div>
-      <div>
-        <label>Nhánh (branch)</label>
-        <input type="text" id="cfg-branch" value="root">
-      </div>
-    </div>
-    <label>GitHub Personal Access Token (quyền "repo" hoặc "contents: read/write")</label>
-    <input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
-    <small class="hint">
-      Token chỉ được lưu trong trình duyệt của bạn (localStorage), không gửi đi đâu khác ngoài GitHub.
-      Tạo token tại: <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>
-      (chọn repo <b>kagucord</b>, quyền <b>Contents: Read and write</b>).
-      Dùng máy công cộng thì nhớ bấm "Quên token" khi xong.
-    </small>
-    <div class="row" style="margin-top:14px;">
-      <button id="btn-connect">Kết nối &amp; tải nội dung</button>
-      <button class="secondary" id="btn-forget-token">Quên token</button>
-    </div>
-    <div class="logbox hidden" id="connect-log"></div>
+<div class="top-bar">
+  <div>
+    <div class="brand-eyebrow">Kyanta · Nội dung tĩnh</div>
+    <h1>Trang quản trị — <b>Kyanta Portfolio</b></h1>
+    <div id="repo-badge" class="mono hidden"></div>
   </div>
+  <div class="topbar-actions hidden" id="topbar-actions">
+    <button class="secondary" id="btn-expand-all">Mở rộng tất cả</button>
+    <button class="secondary" id="btn-collapse-all">Thu gọn tất cả</button>
+  </div>
+</div>
 
-  <div id="editor" class="hidden"></div>
+<div class="shell">
+  <aside class="toc" id="toc">
+    <div class="toc-label">Mục lục</div>
+    <ol id="toc-list"></ol>
+    <div class="toc-tools hidden" id="toc-tools">
+      <button class="secondary" id="btn-reload-side">Tải lại (huỷ thay đổi)</button>
+    </div>
+  </aside>
+
+  <main>
+    <p class="sub">Sửa nội dung, ảnh, nhạc nền... rồi bấm "Lưu &amp; xuất bản" để đẩy thẳng lên GitHub. Trang web (index.html) vẫn là web tĩnh 100%.</p>
+
+    <div class="card" id="connect-panel">
+      <div class="connect-hero">
+        <div>
+          <div class="mark">Bước 1</div>
+          <h2>Kết nối tới GitHub</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>Chủ repo (owner)</label>
+          <input type="text" id="cfg-owner" value="kyantaa">
+        </div>
+        <div>
+          <label>Tên repo</label>
+          <input type="text" id="cfg-repo" value="kagucord">
+        </div>
+        <div>
+          <label>Nhánh (branch)</label>
+          <input type="text" id="cfg-branch" value="main">
+        </div>
+      </div>
+      <label>GitHub Personal Access Token (quyền "repo" hoặc "contents: read/write")</label>
+      <input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+      <small class="hint">
+        Token chỉ được lưu trong trình duyệt của bạn (localStorage), không gửi đi đâu khác ngoài GitHub.
+        Tạo token tại: <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>
+        (chọn repo <b>kagucord</b>, quyền <b>Contents: Read and write</b>).
+        Dùng máy công cộng thì nhớ bấm "Quên token" khi xong.
+      </small>
+      <div class="row" style="margin-top:14px;">
+        <button id="btn-connect">Kết nối &amp; tải nội dung</button>
+        <button class="secondary" id="btn-forget-token">Quên token</button>
+      </div>
+      <div class="logbox hidden" id="connect-log"></div>
+    </div>
+
+    <div id="editor" class="hidden"></div>
+  </main>
 </div>
 
 <div class="toolbar hidden" id="toolbar">
@@ -192,7 +367,7 @@ function loadSavedConfig(){
     if(saved){
       document.getElementById("cfg-owner").value = saved.owner || "kyantaa";
       document.getElementById("cfg-repo").value = saved.repo || "kagucord";
-      document.getElementById("cfg-branch").value = saved.branch || "root";
+      document.getElementById("cfg-branch").value = saved.branch || "main";
       document.getElementById("cfg-token").value = saved.token || "";
     }
   }catch(e){}
@@ -226,6 +401,11 @@ document.getElementById("btn-connect").addEventListener("click", function(){
     logMsg("✅ Đã tải data.json thành công.");
     document.getElementById("editor").classList.remove("hidden");
     document.getElementById("toolbar").classList.remove("hidden");
+    document.getElementById("topbar-actions").classList.remove("hidden");
+    document.getElementById("toc-tools").classList.remove("hidden");
+    var badge = document.getElementById("repo-badge");
+    badge.innerHTML = "<b>" + cfg.owner + "/" + cfg.repo + "</b> · nhánh " + cfg.branch;
+    badge.classList.remove("hidden");
     renderEditor();
     setStatus("Đã tải nội dung. Sẵn sàng chỉnh sửa.");
   }).catch(function(err){
@@ -237,6 +417,16 @@ document.getElementById("btn-reload").addEventListener("click", function(){
   if(!confirm("Tải lại sẽ huỷ mọi thay đổi chưa lưu. Tiếp tục?")) return;
   pendingUploads = {};
   document.getElementById("btn-connect").click();
+});
+document.getElementById("btn-reload-side").addEventListener("click", function(){
+  document.getElementById("btn-reload").click();
+});
+
+document.getElementById("btn-expand-all").addEventListener("click", function(){
+  document.querySelectorAll("#editor details.panel").forEach(function(d){ d.open = true; });
+});
+document.getElementById("btn-collapse-all").addEventListener("click", function(){
+  document.querySelectorAll("#editor details.panel").forEach(function(d){ d.open = false; });
 });
 
 /* ============ Generic list editor ============ */
@@ -331,15 +521,34 @@ function slugify(s){
 function renderEditor(){
   var root = document.getElementById("editor");
   root.innerHTML = "";
+  var panelCount = 0;
+  var tocEntries = [];
 
   function panel(titleText){
-    var p = document.createElement("div");
-    p.className = "panel";
-    var h = document.createElement("h2");
-    h.textContent = titleText;
-    p.appendChild(h);
-    root.appendChild(p);
-    return p;
+    panelCount++;
+    var id = "panel-" + panelCount;
+    var det = document.createElement("details");
+    det.className = "panel";
+    det.id = id;
+    det.open = true;
+
+    var sum = document.createElement("summary");
+    var titleSpan = document.createElement("span");
+    titleSpan.textContent = titleText;
+    var chev = document.createElement("span");
+    chev.className = "chev mono";
+    chev.textContent = "›";
+    sum.appendChild(titleSpan);
+    sum.appendChild(chev);
+    det.appendChild(sum);
+
+    var body = document.createElement("div");
+    body.className = "panel-body";
+    det.appendChild(body);
+
+    root.appendChild(det);
+    tocEntries.push({ id: id, label: titleText });
+    return body;
   }
 
   function textField(parent, label, obj, key, opts){
@@ -504,6 +713,18 @@ function renderEditor(){
   /* --- Chân trang --- */
   var fPanel = panel("11. Chân trang");
   textField(fPanel, "Nội dung footer", state.footer, "text");
+
+  /* --- Mục lục (TOC) --- */
+  var tocList = document.getElementById("toc-list");
+  tocList.innerHTML = "";
+  tocEntries.forEach(function(entry){
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = "#" + entry.id;
+    a.textContent = entry.label;
+    li.appendChild(a);
+    tocList.appendChild(li);
+  });
 }
 
 /* ============ Save / publish ============ */
