@@ -72,9 +72,10 @@
 
   /* ---------- Shell / layout ---------- */
   .shell{
-    max-width:1180px; margin:0 auto; padding:28px 28px 0;
-    display:grid; grid-template-columns:212px 1fr; gap:32px; align-items:start;
+    max-width:1600px; margin:0 auto; padding:28px 32px 0;
+    display:grid; grid-template-columns:212px minmax(0,1fr); gap:32px; align-items:start;
   }
+  main{min-width:0;}
   @media(max-width:960px){
     .shell{grid-template-columns:1fr; padding:20px 16px 0;}
     .toc{display:none;}
@@ -162,9 +163,14 @@
   }
   input[type=file]::file-selector-button:hover{background:var(--gold-soft);}
 
+  .item-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;
+    counter-reset:item; align-items:start;
+  }
+  .item-grid .add-btn{grid-column:1 / -1; margin-top:0;}
   .item-card{
     background:var(--panel-2); border:1px solid var(--line); border-radius:11px; padding:14px 14px 16px;
-    margin-bottom:12px; position:relative; counter-increment:item;
+    margin-bottom:0; position:relative; counter-increment:item;
   }
   .item-card .item-top{display:flex; justify-content:space-between; align-items:center; gap:10px;}
   .item-card .item-top b{
@@ -175,7 +181,8 @@
     content:counter(item, decimal-leading-zero); font-family:'JetBrains Mono', monospace;
     color:var(--gold); margin-right:9px; font-size:12px;
   }
-  .thumb{width:100%; max-width:220px; border-radius:9px; display:block; margin:8px 0; border:1px solid var(--line);}
+  .thumb{width:100%; height:150px; object-fit:cover; border-radius:9px; display:block; margin:8px 0; border:1px solid var(--line);}
+  .panel-body > .thumb{width:auto; max-width:220px; height:auto; object-fit:initial;} /* avatar preview keeps natural size */
   .tag-list{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; align-items:center;}
   .tag-pill{background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:4px 6px 4px 12px; font-size:12.5px; display:flex; align-items:center; gap:4px;}
   .tag-pill button{padding:0 6px; background:none; color:var(--danger); font-size:15px; font-weight:700; border-radius:50%;}
@@ -644,7 +651,7 @@ function renderEditor(){
   var gPanel = panel("5. Thiết kế Banner (thư viện ảnh)");
   textField(gPanel, "Tiêu đề mục", state.productsSection, "title");
   textField(gPanel, "Ghi chú cuối thư viện", state.productsSection, "designGalleryNote");
-  var gList = document.createElement("div"); gPanel.appendChild(gList);
+  var gList = document.createElement("div"); gList.className = "item-grid"; gPanel.appendChild(gList);
   renderList(gList, state.productsSection.gallery, [
     { key:"url", type:"image", label:"Ảnh thiết kế", folder:"assets/gallery" },
     { key:"caption", type:"text", label:"Chú thích ảnh" },
@@ -656,7 +663,7 @@ function renderEditor(){
 
   /* --- Sản phẩm: trang web đã làm --- */
   var sPanel = panel("6. Trang web đã làm");
-  var sList = document.createElement("div"); sPanel.appendChild(sList);
+  var sList = document.createElement("div"); sList.className = "item-grid"; sPanel.appendChild(sList);
   renderList(sList, state.productsSection.sites, [
     { key:"preview", type:"image", label:"Ảnh xem trước", folder:"assets/sites" },
     { key:"title", type:"text", label:"Tên trang" },
@@ -671,7 +678,7 @@ function renderEditor(){
   /* --- Dự án --- */
   var pjPanel = panel("7. Dự án (Trang & cộng đồng)");
   textField(pjPanel, "Tiêu đề mục", state.projectsSection, "title");
-  var pjList = document.createElement("div"); pjPanel.appendChild(pjList);
+  var pjList = document.createElement("div"); pjList.className = "item-grid"; pjPanel.appendChild(pjList);
   renderList(pjList, state.projectsSection.items, [
     { key:"title", type:"text", label:"Tên dự án" },
     { key:"desc", type:"textarea", label:"Mô tả" },
@@ -681,7 +688,7 @@ function renderEditor(){
   /* --- Máy chủ Discord --- */
   var svPanel = panel("8. Máy chủ Discord");
   textField(svPanel, "Tiêu đề mục", state.serversSection, "title");
-  var svList = document.createElement("div"); svPanel.appendChild(svList);
+  var svList = document.createElement("div"); svList.className = "item-grid"; svPanel.appendChild(svList);
   renderList(svList, state.serversSection.items, [
     { key:"title", type:"text", label:"Tên máy chủ" },
     { key:"desc", type:"textarea", label:"Mô tả" },
@@ -691,7 +698,7 @@ function renderEditor(){
   /* --- Kênh & mạng xã hội --- */
   var soPanel = panel("9. Kênh & mạng xã hội");
   textField(soPanel, "Tiêu đề mục", state.socialSection, "title");
-  var soList = document.createElement("div"); soPanel.appendChild(soList);
+  var soList = document.createElement("div"); soList.className = "item-grid"; soPanel.appendChild(soList);
   renderList(soList, state.socialSection.items, [
     { key:"platform", type:"text", label:"Nền tảng (vd: Facebook, TikTok)" },
     { key:"handle", type:"text", label:"Tên hiển thị" },
@@ -702,7 +709,7 @@ function renderEditor(){
   /* --- Liên hệ --- */
   var coPanel = panel("10. Liên hệ trực tiếp");
   textField(coPanel, "Tiêu đề mục", state.contactSection, "title");
-  var coList = document.createElement("div"); coPanel.appendChild(coList);
+  var coList = document.createElement("div"); coList.className = "item-grid"; coPanel.appendChild(coList);
   renderList(coList, state.contactSection.items, [
     { key:"platform", type:"text", label:"Nền tảng" },
     { key:"handle", type:"text", label:"Tên hiển thị" },
