@@ -1,0 +1,256 @@
+{
+  "site": {
+    "title": "Kyanta — Portfolio",
+    "markLabel": "PROFILE",
+    "markName": "Kyanta",
+    "markRight": "kyan.ne"
+  },
+  "profile": {
+    "avatar": "assets/avatar/avatar.jpg",
+    "avatarAlt": "Kyanta avatar",
+    "eyebrow": "kyantane.io.vn",
+    "name": "Kyanta",
+    "nameSmall": "Kyanta / Kyan — trước đây là Nyanta",
+    "tagline": "Họ và tên: Trần Quốc Thái - Sinh ngày 17-07. Sở thích đọc và giới thiệu những bộ anime, manga và light novel đa số thuộc thể loại romcom hay đến cho mọi người.",
+    "tags": [
+      "Light Novel",
+      "Manga",
+      "Anime",
+      "Web Dev"
+    ]
+  },
+  "music": {
+    "src": "nhac-nen.mp3"
+  },
+  "intro": {
+    "chapterNo": "序章 · Giới thiệu",
+    "text": "Chào mọi người, mình là Kyanta! Trước đây một số bạn có thể biết đến mình với cái tên Nyanta. Mình là một đứa \"nghiện\" Romcom chính hiệu, thích đọc Light Novel, cày Anime/Manga và lan tỏa những bộ truyện siêu ngọt ngào ấy đến với cộng đồng. Ngoài thời gian quản lý các group, fanpage hay cùng anh em xàm xí ở máy chủ Discord, những lúc rảnh rỗi mình thích mày mò học thiết kế (khá lỏ) và nhờ AI code web — giống như trang portfolio bạn đang xem nè!"
+  },
+  "productsSection": {
+    "chapterNo": "壱 · Sản phẩm",
+    "title": "Thiết kế Banner & Trang web",
+    "designGalleryNote": "Còn nữa...",
+    "gallery": [
+      {
+        "url": "assets/gallery/gallery-01.jpg",
+        "alt": "Thiết kế 04",
+        "caption": "Kaguza"
+      },
+      {
+        "url": "assets/gallery/gallery-02.jpg",
+        "alt": "Thiết kế 06",
+        "caption": "Happy New Year 2025"
+      },
+      {
+        "url": "assets/gallery/gallery-03.jpg",
+        "alt": "Thiết kế 07",
+        "caption": "ShimotsukiVN Banner"
+      },
+      {
+        "url": "assets/gallery/gallery-04.jpg",
+        "alt": "Thiết kế 08",
+        "caption": "Banner Shinna Mahiru"
+      },
+      {
+        "url": "assets/gallery/gallery-05.jpg",
+        "alt": "Thiết kế 09",
+        "caption": "Ayase Saki"
+      },
+      {
+        "url": "assets/gallery/gallery-06.jpg",
+        "alt": "Thiết kế 11",
+        "caption": "Asaki"
+      },
+      {
+        "url": "assets/gallery/gallery-07.jpg",
+        "alt": "Watch Part",
+        "caption": "Watch Part"
+      },
+      {
+        "url": "assets/gallery/gallery-08.jpg",
+        "alt": "Yoshino",
+        "caption": "Yoshino"
+      },
+      {
+        "url": "assets/gallery/gallery-09.jpg",
+        "alt": "Kyanta Banner",
+        "caption": "Kyanta Banner"
+      },
+      {
+        "url": "assets/gallery/gallery-10.jpg",
+        "alt": "Bocchi The Rock Offline 3",
+        "caption": "Bocchi The Rock Offline 3"
+      },
+      {
+        "url": "assets/gallery/gallery-11.jpg",
+        "alt": "Banner Shiina Mahiru 2",
+        "caption": "Banner Shiina Mahiru 2"
+      },
+      {
+        "url": "assets/gallery/gallery-12.png",
+        "alt": "Chou Kaguya-Hime VN",
+        "caption": "Chou Kaguya-Hime VN"
+      },
+      {
+        "url": "assets/gallery/gallery-13.png",
+        "alt": "Otonari no Tenshi-sama",
+        "caption": "Otonari no Tenshi-sama"
+      },
+      {
+        "url": "assets/gallery/gallery-14.png",
+        "alt": "Kaoru Hana wa Rin to Saku",
+        "caption": "Kaoru Hana wa Rin to Saku"
+      },
+      {
+        "url": "assets/gallery/gallery-15.png",
+        "alt": "Kyanta",
+        "caption": "Kyanta"
+      },
+      {
+        "url": "assets/gallery/gallery-16.jpg",
+        "alt": "Shiina Mahiru",
+        "caption": "Shiina Mahiru"
+      },
+      {
+        "url": "assets/gallery/gallery-17.png",
+        "alt": "The Fairytale-like You Goes on the Assault",
+        "caption": "The Fairytale-like You Goes on the Assault"
+      },
+      {
+        "url": "assets/gallery/gallery-18.png",
+        "alt": "Thiết kế mới",
+        "caption": "Otonair No Tenshi 10k follow"
+      }
+    ],
+    "sites": [
+      {
+        "href": "https://class.kyantane.io.vn",
+        "urlText": "class.kyantane.io.vn",
+        "preview": "assets/sites/site-01.jpg",
+        "title": "Quản lý lớp học",
+        "desc": "Trang web quản lý lớp học"
+      },
+      {
+        "href": "https://kagucord.kyantane.io.vn",
+        "urlText": "kagucord.kyantane.io.vn",
+        "preview": "assets/sites/site-02.jpg",
+        "title": "Kagucord — Form QnA",
+        "desc": "Trang web tạo form QnA"
+      },
+      {
+        "href": "https://kagucord-dashboard.kyantane.io.vn",
+        "urlText": "kagucord-dashboard.kyantane.io.vn",
+        "preview": "assets/sites/site-03.jpg",
+        "title": "Kagucord Dashboard",
+        "desc": "Trang web quản lý bot Kaguya / Kagucord"
+      },
+      {
+        "href": "https://hoc.kyantane.io.vn",
+        "urlText": "hoc.kyantane.io.vn",
+        "preview": "assets/sites/site-04.jpg",
+        "title": "Học Python &amp; Discord Bot",
+        "desc": "Trang web học Python và cách tạo bot Discord bằng Python"
+      },
+      {
+        "href": "https://chamcong.kyantane.io.vn/",
+        "urlText": "chamcong.kyantane.io.vn",
+        "preview": "assets/sites/site-05.jpg",
+        "title": "Chấm công &amp; tính lương",
+        "desc": "Trang web chấm công / tính lương đi làm"
+      }
+    ]
+  },
+  "projectsSection": {
+    "chapterNo": "弐 · Dự án",
+    "title": "Trang & cộng đồng",
+    "items": [
+      {
+        "title": "Otonari no Tenshi-sama VN",
+        "desc": "Trang chuyên cập nhật về bộ truyện \"Thiên sứ nhà bên\" — tiến độ, ngoại truyện, hình ảnh minh họa.",
+        "role": "Owner"
+      },
+      {
+        "title": "Chou Kaguya-hime VN",
+        "desc": "Trang chuyên cập nhật về bộ truyện \"Chou Kaguya-Hime\" — tiến độ, ngoại truyện, hình ảnh minh họa.",
+        "role": "Owner"
+      },
+      {
+        "title": "Shimotsuki wa Mob ga Suki",
+        "desc": "Trang chuyên cập nhật về bộ truyện \"Shimotsuki wa Mob ga Suki\" — tiến độ, ngoại truyện, hình ảnh minh họa.",
+        "role": "Owner"
+      },
+      {
+        "title": "Kyanta — Blog cá nhân",
+        "desc": "Trang blog chính thức dùng để làm đủ thứ.",
+        "role": "Owner"
+      }
+    ]
+  },
+  "serversSection": {
+    "chapterNo": "参 · Máy chủ",
+    "title": "Discord",
+    "items": [
+      {
+        "title": "Động Báo",
+        "desc": "Máy chủ nói về mọi thứ....",
+        "role": "Server"
+      },
+      {
+        "title": "Cosmic Princess Kaguya Vietnam",
+        "desc": "Máy chủ dành cho fandom \"Chou Kaguya-Hime\" tại Vietnam.",
+        "role": "Server"
+      }
+    ]
+  },
+  "socialSection": {
+    "chapterNo": "伍 · Kết nối",
+    "title": "Kênh & mạng xã hội",
+    "items": [
+      {
+        "platform": "TikTok",
+        "handle": "@kyantaa",
+        "desc": "Kênh TikTok chính",
+        "href": "https://www.tiktok.com/@kyantaa"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "Otonari no Tenshi-sama",
+        "desc": "Fanpage chính — cập nhật truyện & hình ảnh",
+        "href": "https://www.facebook.com/otonarinotenshivn"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "Chou Kaguya Hime VN",
+        "desc": "Fanpage — cập nhật truyện & hình ảnh",
+        "href": "https://www.facebook.com/choukaguyahimevn"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "Shimotsuki wa mob ga Suki Fanpage",
+        "desc": "Fanpage — cập nhật truyện & hình ảnh",
+        "href": "https://www.facebook.com/profile.php?id=61554955853162"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "Kyanta",
+        "desc": "Trang cá nhân / thông báo chính",
+        "href": "https://www.facebook.com/kyanta.ne/"
+      }
+    ]
+  },
+  "contactSection": {
+    "chapterNo": "陸 · Liên hệ",
+    "title": "Liên hệ trực tiếp",
+    "items": [
+      {
+        "platform": "Discord",
+        "handle": "kyan.ne",
+        "desc": "",
+        "href": "#"
+      }
+    ]
+  },
+  "footer": {
+    "text": "© Kyanta — Portfolio"
+  }
+}

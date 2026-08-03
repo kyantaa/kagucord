@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kyanta — Quản trị nội dung</title>
+<style>
+  :root{
+    --bg: #100f16;
+    --panel: #1d1a26;
+    --panel-2: #241f30;
+    --line: #322d40;
+    --ink: #f3efe8;
+    --ink-dim: #a39cb0;
+    --gold: #cc9a4d;
+    --gold-soft: #e8c07f;
+    --rose: #d4899a;
+    --danger: #e0687a;
+    --ok: #7ec98f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Segoe UI', Arial, sans-serif; line-height:1.5;
+    padding-bottom:100px;
+  }
+  a{color:var(--gold-soft);}
+  .wrap{max-width:920px; margin:0 auto; padding:24px 20px;}
+  h1{font-size:22px; margin:0 0 4px;}
+  h2{font-size:16px; color:var(--gold-soft); margin:0 0 12px; border-bottom:1px solid var(--line); padding-bottom:8px;}
+  .sub{color:var(--ink-dim); font-size:13px; margin-bottom:20px;}
+  .panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:18px;}
+  label{display:block; font-size:12.5px; color:var(--ink-dim); margin:10px 0 4px;}
+  input[type=text], input[type=url], input[type=password], textarea{
+    width:100%; background:var(--panel-2); border:1px solid var(--line); border-radius:8px;
+    color:var(--ink); padding:9px 10px; font-size:14px; font-family:inherit;
+  }
+  textarea{resize:vertical; min-height:70px;}
+  .row{display:flex; gap:10px; flex-wrap:wrap;}
+  .row > *{flex:1; min-width:160px;}
+  button{
+    background:var(--gold); color:#1a1220; border:none; border-radius:8px;
+    padding:9px 16px; font-weight:600; cursor:pointer; font-size:13.5px;
+  }
+  button.secondary{background:var(--panel-2); color:var(--ink); border:1px solid var(--line);}
+  button.danger{background:var(--danger); color:#1a1220;}
+  button:disabled{opacity:.5; cursor:not-allowed;}
+  .item-card{background:var(--panel-2); border:1px solid var(--line); border-radius:10px; padding:14px; margin-bottom:12px; position:relative;}
+  .item-card .item-top{display:flex; justify-content:space-between; align-items:center;}
+  .thumb{width:100%; max-width:220px; border-radius:8px; display:block; margin:8px 0; border:1px solid var(--line);}
+  .tag-list{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;}
+  .tag-pill{background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:4px 10px; font-size:12.5px; display:flex; align-items:center; gap:6px;}
+  .tag-pill button{padding:0 4px; background:none; color:var(--danger); font-size:14px; font-weight:700;}
+  .toolbar{
+    position:fixed; left:0; right:0; bottom:0; background:#151220ee; backdrop-filter:blur(8px);
+    border-top:1px solid var(--line); padding:12px 20px; display:flex; gap:12px; align-items:center; z-index:50;
+  }
+  .toolbar .status{flex:1; font-size:12.5px; color:var(--ink-dim); white-space:pre-line;}
+  .hidden{display:none !important;}
+  .add-btn{margin-top:6px;}
+  small.hint{display:block; color:var(--ink-dim); font-size:11.5px; margin-top:4px;}
+  .logbox{
+    background:#0c0b11; border:1px solid var(--line); border-radius:8px; padding:10px 12px;
+    font-family:'Consolas', monospace; font-size:12px; max-height:160px; overflow:auto; white-space:pre-wrap;
+  }
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media(max-width:640px){ .grid2{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Trang quản trị — Kyanta Portfolio</h1>
+  <p class="sub">Sửa nội dung, ảnh, nhạc nền... rồi bấm "Lưu &amp; xuất bản" để đẩy thẳng lên GitHub. Trang web (index.html) vẫn là web tĩnh 100%.</p>
+
+  <div class="panel" id="connect-panel">
+    <h2>1. Kết nối tới GitHub</h2>
+    <div class="row">
+      <div>
+        <label>Chủ repo (owner)</label>
+        <input type="text" id="cfg-owner" value="kyantaa">
+      </div>
+      <div>
+        <label>Tên repo</label>
+        <input type="text" id="cfg-repo" value="kagucord">
+      </div>
+      <div>
+        <label>Nhánh (branch)</label>
+        <input type="text" id="cfg-branch" value="root">
+      </div>
+    </div>
+    <label>GitHub Personal Access Token (quyền "repo" hoặc "contents: read/write")</label>
+    <input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+    <small class="hint">
+      Token chỉ được lưu trong trình duyệt của bạn (localStorage), không gửi đi đâu khác ngoài GitHub.
+      Tạo token tại: <a href="https://github.com/settings/tokens?type=beta" target="_blank" rel="noopener">github.com/settings/tokens</a>
+      (chọn repo <b>kagucord</b>, quyền <b>Contents: Read and write</b>).
+      Dùng máy công cộng thì nhớ bấm "Quên token" khi xong.
+    </small>
+    <div class="row" style="margin-top:14px;">
+      <button id="btn-connect">Kết nối &amp; tải nội dung</button>
+      <button class="secondary" id="btn-forget-token">Quên token</button>
+    </div>
+    <div class="logbox hidden" id="connect-log"></div>
+  </div>
+
+  <div id="editor" class="hidden"></div>
+</div>
+
+<div class="toolbar hidden" id="toolbar">
+  <div class="status" id="status-text">Sẵn sàng.</div>
+  <button class="secondary" id="btn-reload">Tải lại (huỷ thay đổi)</button>
+  <button id="btn-save">💾 Lưu &amp; xuất bản</button>
+</div>
+
+<script>
+"use strict";
+
+/* ============ GitHub API helpers ============ */
+var GH_API = "https://api.github.com";
+var cfg = { owner:"", repo:"", branch:"", token:"" };
+
+function utf8ToBase64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function base64ToUtf8(b64){
+  return decodeURIComponent(escape(atob(b64)));
+}
+function arrayBufferToBase64(buffer){
+  var bytes = new Uint8Array(buffer);
+  var chunk = 0x8000, binary = '';
+  for(var i=0; i<bytes.length; i+=chunk){
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i+chunk));
+  }
+  return btoa(binary);
+}
+
+function ghHeaders(){
+  return {
+    "Authorization": "Bearer " + cfg.token,
+    "Accept": "application/vnd.github+json"
+  };
+}
+
+function ghGetFile(path){
+  var url = GH_API + "/repos/" + cfg.owner + "/" + cfg.repo + "/contents/" + encodeURI(path) + "?ref=" + encodeURIComponent(cfg.branch);
+  return fetch(url, { headers: ghHeaders() }).then(function(r){
+    if(r.status === 404) return null;
+    if(!r.ok) return r.json().then(function(e){ throw new Error("GET " + path + ": " + (e.message || r.status)); });
+    return r.json();
+  });
+}
+
+function ghPutFile(path, base64Content, message, sha){
+  var url = GH_API + "/repos/" + cfg.owner + "/" + cfg.repo + "/contents/" + encodeURI(path);
+  var body = {
+    message: message,
+    content: base64Content,
+    branch: cfg.branch
+  };
+  if(sha) body.sha = sha;
+  return fetch(url, {
+    method: "PUT",
+    headers: Object.assign({ "Content-Type": "application/json" }, ghHeaders()),
+    body: JSON.stringify(body)
+  }).then(function(r){
+    if(!r.ok) return r.json().then(function(e){ throw new Error("PUT " + path + ": " + (e.message || r.status)); });
+    return r.json();
+  });
+}
+
+/* ============ App state ============ */
+var state = null;          // parsed data.json
+var dataSha = null;        // sha of data.json on GitHub (for update)
+var pendingUploads = {};   // path -> { file: File, base64: string } queued for upload on save
+var log = [];
+
+function logMsg(msg){
+  log.push(msg);
+  var box = document.getElementById("connect-log");
+  box.classList.remove("hidden");
+  box.textContent = log.join("\n");
+  box.scrollTop = box.scrollHeight;
+}
+function setStatus(msg){
+  document.getElementById("status-text").textContent = msg;
+}
+
+/* ============ Connect ============ */
+function loadSavedConfig(){
+  try{
+    var saved = JSON.parse(localStorage.getItem("kyanta_admin_cfg") || "null");
+    if(saved){
+      document.getElementById("cfg-owner").value = saved.owner || "kyantaa";
+      document.getElementById("cfg-repo").value = saved.repo || "kagucord";
+      document.getElementById("cfg-branch").value = saved.branch || "root";
+      document.getElementById("cfg-token").value = saved.token || "";
+    }
+  }catch(e){}
+}
+loadSavedConfig();
+
+document.getElementById("btn-forget-token").addEventListener("click", function(){
+  localStorage.removeItem("kyanta_admin_cfg");
+  document.getElementById("cfg-token").value = "";
+  logMsg("Đã xoá token khỏi trình duyệt.");
+});
+
+document.getElementById("btn-connect").addEventListener("click", function(){
+  cfg.owner = document.getElementById("cfg-owner").value.trim();
+  cfg.repo = document.getElementById("cfg-repo").value.trim();
+  cfg.branch = document.getElementById("cfg-branch").value.trim() || "main";
+  cfg.token = document.getElementById("cfg-token").value.trim();
+
+  if(!cfg.owner || !cfg.repo || !cfg.token){
+    logMsg("⚠️ Vui lòng nhập đủ owner, repo và token.");
+    return;
+  }
+
+  localStorage.setItem("kyanta_admin_cfg", JSON.stringify(cfg));
+  logMsg("Đang kết nối tới " + cfg.owner + "/" + cfg.repo + " (nhánh " + cfg.branch + ")...");
+
+  ghGetFile("data.json").then(function(res){
+    if(!res){ throw new Error("Không tìm thấy data.json trong repo. Hãy chắc chắn bạn đã tải file data.json (kèm thư mục assets/) lên repo trước."); }
+    dataSha = res.sha;
+    state = JSON.parse(base64ToUtf8(res.content));
+    logMsg("✅ Đã tải data.json thành công.");
+    document.getElementById("editor").classList.remove("hidden");
+    document.getElementById("toolbar").classList.remove("hidden");
+    renderEditor();
+    setStatus("Đã tải nội dung. Sẵn sàng chỉnh sửa.");
+  }).catch(function(err){
+    logMsg("❌ " + err.message);
+  });
+});
+
+document.getElementById("btn-reload").addEventListener("click", function(){
+  if(!confirm("Tải lại sẽ huỷ mọi thay đổi chưa lưu. Tiếp tục?")) return;
+  pendingUploads = {};
+  document.getElementById("btn-connect").click();
+});
+
+/* ============ Generic list editor ============ */
+// Renders a repeatable list of "item" objects with given field config.
+function renderList(container, list, fields, opts){
+  opts = opts || {};
+  container.innerHTML = "";
+  list.forEach(function(item, idx){
+    var card = document.createElement("div");
+    card.className = "item-card";
+
+    var top = document.createElement("div");
+    top.className = "item-top";
+    top.innerHTML = "<b>" + (opts.itemLabel ? opts.itemLabel(item, idx) : ("Mục " + (idx+1))) + "</b>";
+    var delBtn = document.createElement("button");
+    delBtn.className = "danger";
+    delBtn.textContent = "Xoá";
+    delBtn.addEventListener("click", function(){
+      if(!confirm("Xoá mục này?")) return;
+      list.splice(idx, 1);
+      renderList(container, list, fields, opts);
+    });
+    top.appendChild(delBtn);
+    card.appendChild(top);
+
+    fields.forEach(function(f){
+      if(f.type === "image"){
+        var lbl = document.createElement("label"); lbl.textContent = f.label; card.appendChild(lbl);
+        if(item[f.key]){
+          var img = document.createElement("img");
+          img.className = "thumb";
+          img.src = item[f.key];
+          card.appendChild(img);
+        }
+        var fileInput = document.createElement("input");
+        fileInput.type = "file"; fileInput.accept = "image/*";
+        fileInput.addEventListener("change", function(){
+          var file = fileInput.files[0];
+          if(!file) return;
+          var ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+          var path = f.folder + "/" + (opts.slug ? opts.slug(item, idx) : ("item-" + Date.now())) + "." + ext;
+          fileToBase64(file).then(function(b64){
+            pendingUploads[path] = { file: file, base64: b64 };
+            item[f.key] = path;
+            renderList(container, list, fields, opts);
+            setStatus("Đã chọn ảnh mới cho \"" + f.label + "\" — bấm Lưu & xuất bản để đẩy lên.");
+          });
+        });
+        card.appendChild(fileInput);
+      } else if(f.type === "textarea"){
+        var lbl2 = document.createElement("label"); lbl2.textContent = f.label; card.appendChild(lbl2);
+        var ta = document.createElement("textarea");
+        ta.value = item[f.key] || "";
+        ta.addEventListener("input", function(){ item[f.key] = ta.value; });
+        card.appendChild(ta);
+      } else {
+        var lbl3 = document.createElement("label"); lbl3.textContent = f.label; card.appendChild(lbl3);
+        var inp = document.createElement("input");
+        inp.type = "text";
+        inp.value = item[f.key] || "";
+        inp.addEventListener("input", function(){ item[f.key] = inp.value; });
+        card.appendChild(inp);
+      }
+    });
+
+    container.appendChild(card);
+  });
+
+  var addBtn = document.createElement("button");
+  addBtn.className = "secondary add-btn";
+  addBtn.textContent = "+ Thêm mục mới";
+  addBtn.addEventListener("click", function(){
+    var blank = {};
+    fields.forEach(function(f){ blank[f.key] = ""; });
+    list.push(blank);
+    renderList(container, list, fields, opts);
+  });
+  container.appendChild(addBtn);
+}
+
+function fileToBase64(file){
+  return file.arrayBuffer().then(arrayBufferToBase64);
+}
+
+function slugify(s){
+  return (s || "item").toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 40) || "item";
+}
+
+/* ============ Main editor render ============ */
+function renderEditor(){
+  var root = document.getElementById("editor");
+  root.innerHTML = "";
+
+  function panel(titleText){
+    var p = document.createElement("div");
+    p.className = "panel";
+    var h = document.createElement("h2");
+    h.textContent = titleText;
+    p.appendChild(h);
+    root.appendChild(p);
+    return p;
+  }
+
+  function textField(parent, label, obj, key, opts){
+    opts = opts || {};
+    var lbl = document.createElement("label"); lbl.textContent = label; parent.appendChild(lbl);
+    var el = document.createElement(opts.area ? "textarea" : "input");
+    if(!opts.area) el.type = "text";
+    el.value = obj[key] || "";
+    el.addEventListener("input", function(){ obj[key] = el.value; });
+    parent.appendChild(el);
+    return el;
+  }
+
+  /* --- Hồ sơ (profile) --- */
+  var pPanel = panel("2. Hồ sơ cá nhân");
+  var pr = state.profile;
+  if(pr.avatar){
+    var av = document.createElement("img"); av.className = "thumb"; av.src = pr.avatar;
+    pPanel.appendChild(av);
+  }
+  var avInput = document.createElement("input");
+  avInput.type = "file"; avInput.accept = "image/*";
+  avInput.addEventListener("change", function(){
+    var file = avInput.files[0]; if(!file) return;
+    var ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+    var path = "assets/avatar/avatar." + ext;
+    fileToBase64(file).then(function(b64){
+      pendingUploads[path] = { file: file, base64: b64 };
+      pr.avatar = path;
+      renderEditor();
+      setStatus("Đã chọn ảnh đại diện mới — bấm Lưu & xuất bản để đẩy lên.");
+    });
+  });
+  var avLabel = document.createElement("label"); avLabel.textContent = "Đổi ảnh đại diện";
+  pPanel.appendChild(avLabel); pPanel.appendChild(avInput);
+
+  var grid = document.createElement("div"); grid.className = "grid2"; pPanel.appendChild(grid);
+  textField(grid, "Tên hiển thị (h1)", pr, "name");
+  textField(grid, "Dòng chữ nhỏ dưới tên", pr, "nameSmall");
+  textField(grid, "Eyebrow (chữ nhỏ trên đầu)", pr, "eyebrow");
+  textField(pPanel, "Giới thiệu ngắn (tagline)", pr, "tagline", { area:true });
+
+  var tagLbl = document.createElement("label"); tagLbl.textContent = "Thẻ (tags)"; pPanel.appendChild(tagLbl);
+  var tagList = document.createElement("div"); tagList.className = "tag-list"; pPanel.appendChild(tagList);
+  function renderTags(){
+    tagList.innerHTML = "";
+    (pr.tags || []).forEach(function(t, i){
+      var pill = document.createElement("span"); pill.className = "tag-pill";
+      pill.appendChild(document.createTextNode(t));
+      var rm = document.createElement("button"); rm.textContent = "×";
+      rm.addEventListener("click", function(){ pr.tags.splice(i,1); renderTags(); });
+      pill.appendChild(rm);
+      tagList.appendChild(pill);
+    });
+    var addTag = document.createElement("input");
+    addTag.type = "text"; addTag.placeholder = "Nhập thẻ rồi Enter";
+    addTag.style.maxWidth = "160px";
+    addTag.addEventListener("keydown", function(e){
+      if(e.key === "Enter" && addTag.value.trim()){
+        pr.tags = pr.tags || [];
+        pr.tags.push(addTag.value.trim());
+        renderTags();
+      }
+    });
+    tagList.appendChild(addTag);
+  }
+  renderTags();
+
+  /* --- Nhạc nền --- */
+  var mPanel = panel("3. Nhạc nền");
+  var mLbl = document.createElement("label"); mLbl.textContent = "File nhạc hiện tại: " + (state.music.src || "(chưa có)");
+  mPanel.appendChild(mLbl);
+  var mInput = document.createElement("input");
+  mInput.type = "file"; mInput.accept = "audio/*";
+  mInput.addEventListener("change", function(){
+    var file = mInput.files[0]; if(!file) return;
+    var path = "nhac-nen.mp3";
+    fileToBase64(file).then(function(b64){
+      pendingUploads[path] = { file: file, base64: b64 };
+      state.music.src = path;
+      renderEditor();
+      setStatus("Đã chọn nhạc nền mới — bấm Lưu & xuất bản để đẩy lên.");
+    });
+  });
+  mPanel.appendChild(mInput);
+
+  /* --- Giới thiệu --- */
+  var iPanel = panel("4. Giới thiệu (序章)");
+  textField(iPanel, "Tiêu đề chương", state.intro, "chapterNo");
+  textField(iPanel, "Nội dung giới thiệu", state.intro, "text", { area:true });
+
+  /* --- Sản phẩm: gallery thiết kế --- */
+  var gPanel = panel("5. Thiết kế Banner (thư viện ảnh)");
+  textField(gPanel, "Tiêu đề mục", state.productsSection, "title");
+  textField(gPanel, "Ghi chú cuối thư viện", state.productsSection, "designGalleryNote");
+  var gList = document.createElement("div"); gPanel.appendChild(gList);
+  renderList(gList, state.productsSection.gallery, [
+    { key:"url", type:"image", label:"Ảnh thiết kế", folder:"assets/gallery" },
+    { key:"caption", type:"text", label:"Chú thích ảnh" },
+    { key:"alt", type:"text", label:"Mô tả (alt text)" }
+  ], {
+    itemLabel: function(it){ return it.caption || "(chưa đặt tên)"; },
+    slug: function(it, idx){ return "gallery-" + (idx+1) + "-" + slugify(it.caption); }
+  });
+
+  /* --- Sản phẩm: trang web đã làm --- */
+  var sPanel = panel("6. Trang web đã làm");
+  var sList = document.createElement("div"); sPanel.appendChild(sList);
+  renderList(sList, state.productsSection.sites, [
+    { key:"preview", type:"image", label:"Ảnh xem trước", folder:"assets/sites" },
+    { key:"title", type:"text", label:"Tên trang" },
+    { key:"desc", type:"text", label:"Mô tả" },
+    { key:"urlText", type:"text", label:"Địa chỉ hiển thị (vd: abc.kyantane.io.vn)" },
+    { key:"href", type:"text", label:"Đường dẫn (link đầy đủ, https://...)" }
+  ], {
+    itemLabel: function(it){ return it.title || "(chưa đặt tên)"; },
+    slug: function(it, idx){ return "site-" + (idx+1) + "-" + slugify(it.title); }
+  });
+
+  /* --- Dự án --- */
+  var pjPanel = panel("7. Dự án (Trang & cộng đồng)");
+  textField(pjPanel, "Tiêu đề mục", state.projectsSection, "title");
+  var pjList = document.createElement("div"); pjPanel.appendChild(pjList);
+  renderList(pjList, state.projectsSection.items, [
+    { key:"title", type:"text", label:"Tên dự án" },
+    { key:"desc", type:"textarea", label:"Mô tả" },
+    { key:"role", type:"text", label:"Vai trò (vd: Owner)" }
+  ], { itemLabel: function(it){ return it.title || "(chưa đặt tên)"; } });
+
+  /* --- Máy chủ Discord --- */
+  var svPanel = panel("8. Máy chủ Discord");
+  textField(svPanel, "Tiêu đề mục", state.serversSection, "title");
+  var svList = document.createElement("div"); svPanel.appendChild(svList);
+  renderList(svList, state.serversSection.items, [
+    { key:"title", type:"text", label:"Tên máy chủ" },
+    { key:"desc", type:"textarea", label:"Mô tả" },
+    { key:"role", type:"text", label:"Vai trò (vd: Server)" }
+  ], { itemLabel: function(it){ return it.title || "(chưa đặt tên)"; } });
+
+  /* --- Kênh & mạng xã hội --- */
+  var soPanel = panel("9. Kênh & mạng xã hội");
+  textField(soPanel, "Tiêu đề mục", state.socialSection, "title");
+  var soList = document.createElement("div"); soPanel.appendChild(soList);
+  renderList(soList, state.socialSection.items, [
+    { key:"platform", type:"text", label:"Nền tảng (vd: Facebook, TikTok)" },
+    { key:"handle", type:"text", label:"Tên hiển thị" },
+    { key:"desc", type:"text", label:"Mô tả" },
+    { key:"href", type:"text", label:"Đường dẫn" }
+  ], { itemLabel: function(it){ return it.platform || "(chưa đặt tên)"; } });
+
+  /* --- Liên hệ --- */
+  var coPanel = panel("10. Liên hệ trực tiếp");
+  textField(coPanel, "Tiêu đề mục", state.contactSection, "title");
+  var coList = document.createElement("div"); coPanel.appendChild(coList);
+  renderList(coList, state.contactSection.items, [
+    { key:"platform", type:"text", label:"Nền tảng" },
+    { key:"handle", type:"text", label:"Tên hiển thị" },
+    { key:"desc", type:"text", label:"Mô tả" },
+    { key:"href", type:"text", label:"Đường dẫn" }
+  ], { itemLabel: function(it){ return it.platform || "(chưa đặt tên)"; } });
+
+  /* --- Chân trang --- */
+  var fPanel = panel("11. Chân trang");
+  textField(fPanel, "Nội dung footer", state.footer, "text");
+}
+
+/* ============ Save / publish ============ */
+document.getElementById("btn-save").addEventListener("click", function(){
+  var saveBtn = document.getElementById("btn-save");
+  saveBtn.disabled = true;
+  setStatus("Đang lưu...");
+
+  var uploadEntries = Object.keys(pendingUploads);
+  var uploadPromise = Promise.resolve();
+
+  uploadEntries.forEach(function(path){
+    uploadPromise = uploadPromise.then(function(){
+      setStatus("Đang tải lên: " + path + " ...");
+      return ghGetFile(path).then(function(existing){
+        return ghPutFile(path, pendingUploads[path].base64, "Cập nhật " + path + " (qua trang quản trị)", existing ? existing.sha : null);
+      });
+    });
+  });
+
+  uploadPromise
+    .then(function(){
+      setStatus("Đang lưu data.json...");
+      var newContentB64 = utf8ToBase64(JSON.stringify(state, null, 2));
+      return ghPutFile("data.json", newContentB64, "Cập nhật nội dung web (qua trang quản trị)", dataSha);
+    })
+    .then(function(res){
+      dataSha = res.content.sha;
+      pendingUploads = {};
+      setStatus("✅ Đã lưu và xuất bản thành công lúc " + new Date().toLocaleTimeString("vi-VN") + ". Web sẽ cập nhật sau vài chục giây.");
+    })
+    .catch(function(err){
+      setStatus("❌ Lỗi khi lưu: " + err.message);
+    })
+    .finally(function(){
+      saveBtn.disabled = false;
+    });
+});
+</script>
+</body>
+</html>
