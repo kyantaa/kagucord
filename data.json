@@ -120,6 +120,26 @@
         "url": "assets/gallery/gallery-18.png",
         "alt": "Thiết kế mới",
         "caption": "Otonair No Tenshi 10k follow"
+      },
+      {
+        "url": "assets/gallery/gallery-19-saiyo-no-osewa-hpbd-1.png",
+        "caption": "Saiyo No Osewa HPBD 1",
+        "alt": ""
+      },
+      {
+        "url": "assets/gallery/gallery-20-saiyo-no-osewa-hpbd-2.png",
+        "caption": "Saiyo No Osewa HPBD 2",
+        "alt": ""
+      },
+      {
+        "url": "assets/gallery/gallery-21-item.png",
+        "caption": "Saiyo No Osewa HPBD 3",
+        "alt": ""
+      },
+      {
+        "url": "assets/gallery/gallery-22-item.png",
+        "caption": "Otonari Asobi HPBD",
+        "alt": ""
       }
     ],
     "sites": [
@@ -157,6 +177,13 @@
         "preview": "assets/sites/site-05.jpg",
         "title": "Chấm công &amp; tính lương",
         "desc": "Trang web chấm công / tính lương đi làm"
+      },
+      {
+        "preview": "assets/sites/site-6-item.png",
+        "title": "Kagudrive Share File",
+        "desc": "Trang web share file từ trong Nas như gg drive",
+        "urlText": "https://kagudrive.kyantane.io.vn",
+        "href": "https://kagudrive.kyantane.io.vn/"
       }
     ]
   },
@@ -183,6 +210,11 @@
         "title": "Kyanta — Blog cá nhân",
         "desc": "Trang blog chính thức dùng để làm đủ thứ.",
         "role": "Owner"
+      },
+      {
+        "title": "Shinkai Makoto - Bản Tình Ca Từ Thiên Nhiên",
+        "desc": "Góc nhỏ dành cho những ai yêu thích các tác phẩm của vị phù thủy Shinkai Makoto\n",
+        "role": "Admin"
       }
     ]
   },
@@ -235,6 +267,12 @@
         "handle": "Kyanta",
         "desc": "Trang cá nhân / thông báo chính",
         "href": "https://www.facebook.com/kyanta.ne/"
+      },
+      {
+        "platform": "Facebook",
+        "handle": "Shinkai Makoto - Bản Tình Ca Từ Thiên Nhiên",
+        "desc": "Góc nhỏ dành cho những ai yêu thích các tác phẩm của vị phù thủy Shinkai Makoto",
+        "href": "https://www.facebook.com/shinkaimakotovietnam2"
       }
     ]
   },
@@ -251,6 +289,6 @@
     ]
   },
   "footer": {
-    "text": "© Kyanta — Portfolio"
+    "text": "© Kyanta — Profile"
   }
 }
