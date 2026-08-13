@@ -193,6 +193,13 @@
         "desc": "Trang web share file từ trong Nas như gg drive",
         "urlText": "https://kagudrive.kyantane.io.vn",
         "href": "https://kagudrive.kyantane.io.vn/"
+      },
+      {
+        "preview": "assets/sites/site-7-truyendex.png",
+        "title": "Truyendex",
+        "desc": "Web đọc truyện hoặc cái gì đó",
+        "urlText": "https://doctruyen.kyantane.io.vn/",
+        "href": "https://doctruyen.kyantane.io.vn/"
       }
     ]
   },
