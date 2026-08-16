@@ -167,11 +167,11 @@
         "desc": "Trang web tạo form QnA"
       },
       {
-        "href": "https://kagucord-dashboard.kyantane.io.vn",
-        "urlText": "kagucord-dashboard.kyantane.io.vn",
-        "preview": "assets/sites/site-03.jpg",
+        "href": "https://kyantaa.github.io/Trang-chu-bot-kaguya/",
+        "urlText": "https://kyantaa.github.io/Trang-chu-bot-kaguya/",
+        "preview": "assets/sites/site-3-kagucord-dashboard.png",
         "title": "Kagucord Dashboard",
-        "desc": "Trang web quản lý bot Kaguya / Kagucord"
+        "desc": "Trang web xem thông tin bot discord Kagucord"
       },
       {
         "href": "https://hoc.kyantane.io.vn",
