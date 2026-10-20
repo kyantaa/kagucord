@@ -196,10 +196,24 @@
       },
       {
         "preview": "assets/sites/site-7-truyendex.png",
-        "title": "Truyendex",
-        "desc": "Web đọc truyện hoặc cái gì đó",
-        "urlText": "https://doctruyen.kyantane.io.vn/",
-        "href": "https://doctruyen.kyantane.io.vn/"
+        "title": "Tano",
+        "desc": "Web đọc truyện ",
+        "urlText": "https://tano.kyantane.io.vn/",
+        "href": "https://tano.kyantane.io.vn/"
+      },
+      {
+        "preview": "assets/sites/site-8-kyari-quizz.png",
+        "title": "Kyari Quizz",
+        "desc": "Quizz về anime thôi",
+        "urlText": "https://kyari-quizz.kyantane.io.vn/",
+        "href": "https://kyari-quizz.kyantane.io.vn/"
+      },
+      {
+        "preview": "assets/sites/site-9-item.png",
+        "title": "Kyari💖Mihari",
+        "desc": "Đếm ngày yêu, nhật kí....",
+        "urlText": "https://kyantamihari.kyantane.io.vn/",
+        "href": "https://kyantamihari.kyantane.io.vn/"
       }
     ]
   },
