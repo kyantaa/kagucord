@@ -9,8 +9,8 @@
     "avatar": "assets/avatar/avatar.jpg",
     "avatarAlt": "Kyanta avatar",
     "eyebrow": "kyantane.io.vn",
-    "name": "Kyanta",
-    "nameSmall": "Kyanta / Kyan — trước đây là Nyanta",
+    "name": "Kyari",
+    "nameSmall": "Kyari / Kyan — trước đây là Kyanta",
     "tagline": "Họ và tên: Trần Quốc Thái - Sinh ngày 17-07. Sở thích đọc và giới thiệu những bộ anime, manga và light novel đa số thuộc thể loại romcom hay đến cho mọi người.",
     "tags": [
       "Light Novel",
@@ -23,7 +23,7 @@
   },
   "intro": {
     "chapterNo": "序章 · Giới thiệu",
-    "text": "Chào mọi người, mình là Kyanta! Trước đây một số bạn có thể biết đến mình với cái tên Nyanta. Mình là một đứa \"nghiện\" Romcom chính hiệu, thích đọc Light Novel, cày Anime/Manga và lan tỏa những bộ truyện siêu ngọt ngào ấy đến với cộng đồng. Ngoài thời gian quản lý các group, fanpage hay cùng anh em xàm xí ở máy chủ Discord, những lúc rảnh rỗi mình thích mày mò học thiết kế (khá lỏ) và nhờ AI code web — giống như trang portfolio bạn đang xem nè!"
+    "text": "Chào mọi người, mình là Kyari! Trước đây một số bạn có thể biết đến mình với cái tên Nyanta. Mình là một đứa \"nghiện\" Romcom chính hiệu, thích đọc Light Novel, cày Anime/Manga và lan tỏa những bộ truyện siêu ngọt ngào ấy đến với cộng đồng. Ngoài thời gian quản lý các group, fanpage hay cùng anh em xàm xí ở máy chủ Discord, những lúc rảnh rỗi mình thích mày mò học thiết kế (khá lỏ) và nhờ AI code web — giống như trang portfolio bạn đang xem nè!"
   },
   "productsSection": {
     "chapterNo": "壱 · Sản phẩm",
@@ -237,7 +237,7 @@
         "role": "Owner"
       },
       {
-        "title": "Kyanta — Blog cá nhân",
+        "title": "Kyari— Blog cá nhân",
         "desc": "Trang blog chính thức dùng để làm đủ thứ.",
         "role": "Owner"
       },
@@ -270,9 +270,9 @@
     "items": [
       {
         "platform": "TikTok",
-        "handle": "@kyantaa",
+        "handle": "@kyanta_mihari",
         "desc": "Kênh TikTok chính",
-        "href": "https://www.tiktok.com/@kyantaa"
+        "href": "https://www.tiktok.com/@kyanta_mihari"
       },
       {
         "platform": "Facebook",
@@ -294,7 +294,7 @@
       },
       {
         "platform": "Facebook",
-        "handle": "Kyanta",
+        "handle": "Kyari",
         "desc": "Trang cá nhân / thông báo chính",
         "href": "https://www.facebook.com/kyanta.ne/"
       },
@@ -312,7 +312,7 @@
     "items": [
       {
         "platform": "Discord",
-        "handle": "kyan.ne",
+        "handle": "kyari.ne",
         "desc": "",
         "href": "#"
       }
